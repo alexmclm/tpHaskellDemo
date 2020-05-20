@@ -18,43 +18,92 @@ data Auto = Auto {
 type Patente = String
 type Desgaste = Float
 type Fecha = (Int,Int,Int)
+type Persona = Auto -> Auto
 
-ford = Auto "DJA324234" [0,2] 10000 100 (2,1,512)
+anio :: Fecha -> Int
+anio (_, _, year) = year
+
+ford :: Auto
+ford = Auto "AT001LN" [0.5, 0.1, 0.6, 0.4] 10000 100 (2,1,2016)
+
+audi :: Auto
+audi = Auto "DJV214" [0.51, 0.1, 0.6, 0.4] 2948 80 (3,10,2015)
+
+chevrolet :: Auto
+chevrolet = Auto "DJV215" [0.9, 0.9, 0.8, 0.4] 5893 63 (16,8,2013)
+
+ferrari :: Auto
+ferrari = Auto "DFH029" [0.8, 0.1, 0.6, 0.2] 9382 110 (13,5,2019)
+
 
 -- PUNTO 1
 
 -- costo reparacion de auto
 
-costoReparacion unAuto | cantidadDigitosPatentes 7 unAuto = 12500
-                       | patenteConLetras unAuto = calculoParaPatentesPeculiar unAuto
-                       | otherwise = 20000
+costoReparacion :: Auto -> Int
+costoReparacion unAuto | cantidadDigitosPatente unAuto == 7 = 12500
+                       | patenteEstaEntreDJyNB unAuto = calculoParaPatentesPeculiar unAuto
+                       | otherwise = 15000
 
-cantidadDigitosPatentes unDigito unAuto = length (patente unAuto) == 7
+cantidadDigitosPatente :: Auto -> Int
+cantidadDigitosPatente unAuto = length (patente unAuto)
 
--- recorda que elem toma si o si una lista, explicitamente [] asi , que considere string como lista de caracteres, no es valido
-patenteConLetras unAuto = ((>= "DJ").take 2. patente) unAuto && ((<= "NB").take 2. patente) unAuto
+patenteEstaEntreDJyNB :: Auto -> Bool
+patenteEstaEntreDJyNB unAuto = ((>= "DJ").take 2. patente) unAuto && ((<= "NB").take 2. patente) unAuto
 
-calculoParaPatentesPeculiar unAuto | last (patente unAuto) == '4' = 3000* length (patente unAuto)
+patenteTerminaEnCuatro :: Auto -> Bool
+patenteTerminaEnCuatro unAuto = ((=='4').last.patente) unAuto
+
+calculoParaPatentesPeculiar :: Auto -> Int
+calculoParaPatentesPeculiar unAuto | patenteTerminaEnCuatro unAuto = 3000 * cantidadDigitosPatente unAuto
                                    | otherwise = 20000
 
 -- Punto 2
-esPeligroso unAuto = head (desgasteLlantas unAuto) <0.5
 
-anioRevision (_,_,anio) = anio
+desgastePrimeraLlanta :: Auto -> Float
+desgastePrimeraLlanta unAuto = (head.desgasteLlantas) unAuto
 
-necesitaRevision unAuto = (anioRevision unAuto) < 2015
+esPeligroso :: Auto -> Bool
+esPeligroso unAuto = ((>0.5).desgastePrimeraLlanta) unAuto
+
+anioRevision :: Auto -> Int
+anioRevision unAuto = (anio.ultimoArreglo) unAuto
+
+necesitaRevision :: Auto -> Bool
+necesitaRevision unAuto = ((<=2015).anioRevision) unAuto
 
 -- punto 3
 
+--Alex
+alfa :: Persona
 alfa unAuto | (rpm unAuto) > 2000 = regularAuto 2000 unAuto
             | otherwise = id unAuto
 
+regularAuto :: Int -> Auto -> Auto
 regularAuto unaCantidad unAuto = unAuto {rpm = unaCantidad}
 
-bravo unAuto = unAuto {desgasteLlantas = [0]}
+bravo :: Persona
+bravo unAuto = unAuto {desgasteLlantas = [0, 0, 0, 0]}
 
+charly :: Persona
 charly unAuto = (alfa.bravo) unAuto
 
-tango unAuto = id unAuto
+tango :: Persona
+tango unAuto = unAuto
 
--- zulu 
+--Facu
+revisarTemperaturaAgua :: Auto -> Auto
+revisarTemperaturaAgua unAuto = unAuto {temperaturaAgua = 90}
+
+zulu :: Persona
+zulu unAuto = (lima.revisarTemperaturaAgua) unAuto
+
+arreglarDosPrimerasLlantas :: [Desgaste] -> [Desgaste]
+arreglarDosPrimerasLlantas [_, _, tercera, cuarta] = [0, 0, tercera, cuarta]
+arreglarDosPrimerasLlantas _ = []
+
+cambiarCubiertasDelanteras :: Auto -> Auto
+cambiarCubiertasDelanteras unAuto = unAuto {desgasteLlantas = arreglarDosPrimerasLlantas (desgasteLlantas unAuto)}
+
+lima :: Persona
+lima unAuto = cambiarCubiertasDelanteras unAuto
