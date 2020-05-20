@@ -26,19 +26,19 @@ ford = Auto "DJA324234" [0,2] 10000 100 (2,1,512)
 -- costo reparacion de auto
 
 costoReparacion unAuto | cantidadDigitosPatentes 7 unAuto = 12500
---                      | patenteConLetras unAuto = calculoParaPatentesPeculiar unAuto
+                       | patenteConLetras unAuto = calculoParaPatentesPeculiar unAuto
                        | otherwise = 20000
 
 cantidadDigitosPatentes unDigito unAuto = length (patente unAuto) == 7
 
 -- recorda que elem toma si o si una lista, explicitamente [] asi , que considere string como lista de caracteres, no es valido
---patenteConLetras unAuto = elem "DJ" (patente unAuto) || elem "NB" (patente unAuto)
+patenteConLetras unAuto = ((>= "DJ").take 2. patente) unAuto && ((<= "NB").take 2. patente) unAuto
 
---calculoParaPatentesPeculiar unAuto | last (patente unAuto) == '4' = 3000* length (patente unAuto)
---                                   | otherwise = 20000
+calculoParaPatentesPeculiar unAuto | last (patente unAuto) == '4' = 3000* length (patente unAuto)
+                                   | otherwise = 20000
 
 -- Punto 2
-esPeligroso unAuto = head (desgasteLlantas unAuto) < 0.5
+esPeligroso unAuto = head (desgasteLlantas unAuto) <0.5
 
 anioRevision (_,_,anio) = anio
 
