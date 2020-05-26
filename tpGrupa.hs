@@ -24,16 +24,16 @@ anio :: Fecha -> Int
 anio (_, _, year) = year
 
 ford :: Auto
-ford = Auto "AT001LN" [0.3, 0.1, 0.1, 0.2] 10000 100 (2,1,2016)
+ford = Auto "AT001LN" [0.3, 0.1, 0.1, 0.2] 10000 100 (2,1,2015)
 
 audi :: Auto
-audi = Auto "DJV214" [0.5, 0.5, 0.5, 0.6] 2948 80 (3,10,2015)
+audi = Auto "DJV214" [0.5, 0.5, 0.5, 0.6] 2948 80 (3,10,2016)
 
 chevrolet :: Auto
-chevrolet = Auto "DJV215" [0.1, 0.5, 0.2, 0.2] 5893 63 (16,8,2013)
+chevrolet = Auto "DJV215" [0.1, 0.5, 0.2, 0.2] 5893 63 (16,8,2019)
 
 ferrari :: Auto
-ferrari = Auto "DFH029" [0.5, 0.4, 0.1, 0.6] 9382 110 (13,5,2019)
+ferrari = Auto "DFH029" [0.5, 0.4, 0.1, 0.6] 9382 110 (13,5,2014)
 
 autos :: [Auto]
 autos = [ford, audi, chevrolet, ferrari]
@@ -144,3 +144,16 @@ ordenReparacion unaFecha [] unAuto = cambiarFecha unaFecha unAuto
 ordenReparacion unaFecha (mecanico:otrosMecanicos) unAuto  = ordenReparacion unaFecha otrosMecanicos (mecanico unAuto)  
 
 -- PUNTO 6
+--PARTE 1
+
+-- mas adelante jajajaja
+
+
+
+-- subo esta primera version, que seguro sale con foldl1 pero mas tarde lo miro bien jajaaj
+--PARTE 2
+costoReparacionA :: [Auto]-> Int
+costoReparacionA unosAutos = sum (map costoReparacion (autosEnRevision unosAutos))
+
+autosEnRevision :: [Auto]-> [Auto]
+autosEnRevision unosAutos = filter necesitaRevision unosAutos
