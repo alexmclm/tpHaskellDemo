@@ -24,16 +24,22 @@ anio :: Fecha -> Int
 anio (_, _, year) = year
 
 ford :: Auto
-ford = Auto "AT001LN" [0.5, 0.1, 0.6, 0.4] 10000 100 (2,1,2016)
+ford = Auto "AT001LN" [0.3, 0.1, 0.1, 0.2] 10000 100 (2,1,2016)
 
 audi :: Auto
-audi = Auto "DJV214" [0.51, 0.1, 0.6, 0.4] 2948 80 (3,10,2015)
+audi = Auto "DJV214" [0.5, 0.5, 0.5, 0.6] 2948 80 (3,10,2015)
 
 chevrolet :: Auto
-chevrolet = Auto "DJV215" [0.9, 0.9, 0.8, 0.4] 5893 63 (16,8,2013)
+chevrolet = Auto "DJV215" [0.1, 0.5, 0.2, 0.2] 5893 63 (16,8,2013)
 
 ferrari :: Auto
-ferrari = Auto "DFH029" [0.8, 0.1, 0.6, 0.2] 9382 110 (13,5,2019)
+ferrari = Auto "DFH029" [0.5, 0.4, 0.1, 0.6] 9382 110 (13,5,2019)
+
+autos :: [Auto]
+autos = [ford, audi, chevrolet, ferrari]
+
+autosDesordenados :: [Auto]
+autosDesordenados = [audi, ford, ferrari, chevrolet]
 
 
 -- PUNTO 1
@@ -110,17 +116,16 @@ lima unAuto = cambiarCubiertasDelanteras unAuto
 
 
 -- PUNTO 4
--- dejo esto asi, esta casi perfecto, solamente me falta agregar una condicion mas para cuando solo
--- tenga una lista, despues lo veo. pero funciona jajajajaja
-ordenToc :: [Auto] -> Bool
 
-ordenToc [] = False
+ordenToc :: [Auto] -> Bool
+ordenToc [] = True
+ordenToc [unAuto] = tieneLlantaImpar unAuto
 ordenToc (unAuto:segundoAuto:demasAutos) = tieneLlantaImpar unAuto && tieneLlantasPar segundoAuto && ordenToc demasAutos
 
 tieneLlantasPar :: Auto -> Bool
-tieneLlantasPar unAuto = even (round (sum (desgasteLlantas unAuto)))
+tieneLlantasPar unAuto = (even.round.sum.desgasteLlantas) unAuto
 
 tieneLlantaImpar :: Auto -> Bool
-tieneLlantaImpar segundoAuto = odd (round (sum (desgasteLlantas segundoAuto)))
+tieneLlantaImpar unAuto = (not.tieneLlantasPar) unAuto
 
 -- PUNTO 5
