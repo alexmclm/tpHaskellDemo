@@ -41,6 +41,12 @@ autos = [ford, audi, chevrolet, ferrari]
 autosDesordenados :: [Auto]
 autosDesordenados = [audi, ford, ferrari, chevrolet]
 
+mecanicos :: [Persona]
+mecanicos = [alfa, bravo, zulu]
+
+navidad :: Fecha
+navidad = (25,12,2020)
+
 
 -- PUNTO 1
 
@@ -119,13 +125,22 @@ lima unAuto = cambiarCubiertasDelanteras unAuto
 
 ordenToc :: [Auto] -> Bool
 ordenToc [] = True
-ordenToc [unAuto] = tieneLlantaImpar unAuto
-ordenToc (unAuto:segundoAuto:demasAutos) = tieneLlantaImpar unAuto && tieneLlantasPar segundoAuto && ordenToc demasAutos
+ordenToc [unAuto] = tieneLlantasImpar unAuto
+ordenToc (unAuto:segundoAuto:demasAutos) = tieneLlantasImpar unAuto && tieneLlantasPar segundoAuto && ordenToc demasAutos
 
 tieneLlantasPar :: Auto -> Bool
-tieneLlantasPar unAuto = (even.round.sum.desgasteLlantas) unAuto
+tieneLlantasPar unAuto = (even.round.(*10).sum.desgasteLlantas) unAuto
 
-tieneLlantaImpar :: Auto -> Bool
-tieneLlantaImpar unAuto = (not.tieneLlantasPar) unAuto
+tieneLlantasImpar :: Auto -> Bool
+tieneLlantasImpar unAuto = (not.tieneLlantasPar) unAuto
 
 -- PUNTO 5
+
+cambiarFecha :: Fecha -> Auto -> Auto
+cambiarFecha unaFecha unAuto = unAuto {ultimoArreglo = unaFecha}
+
+ordenReparacion :: Fecha -> [Persona] -> Auto -> Auto
+ordenReparacion unaFecha [] unAuto = cambiarFecha unaFecha unAuto
+ordenReparacion unaFecha (mecanico:otrosMecanicos) unAuto  = ordenReparacion unaFecha otrosMecanicos (mecanico unAuto)  
+
+-- PUNTO 6
