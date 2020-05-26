@@ -107,3 +107,20 @@ cambiarCubiertasDelanteras unAuto = unAuto {desgasteLlantas = arreglarDosPrimera
 
 lima :: Persona
 lima unAuto = cambiarCubiertasDelanteras unAuto
+
+
+-- PUNTO 4
+-- dejo esto asi, esta casi perfecto, solamente me falta agregar una condicion mas para cuando solo
+-- tenga una lista, despues lo veo. pero funciona jajajajaja
+ordenToc :: [Auto] -> Bool
+
+ordenToc [] = False
+ordenToc (unAuto:segundoAuto:demasAutos) = tieneLlantaImpar unAuto && tieneLlantasPar segundoAuto && ordenToc demasAutos
+
+tieneLlantasPar :: Auto -> Bool
+tieneLlantasPar unAuto = even (round (sum (desgasteLlantas unAuto)))
+
+tieneLlantaImpar :: Auto -> Bool
+tieneLlantaImpar segundoAuto = odd (round (sum (desgasteLlantas segundoAuto)))
+
+-- PUNTO 5
