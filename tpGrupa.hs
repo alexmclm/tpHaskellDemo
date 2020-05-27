@@ -144,16 +144,19 @@ ordenReparacion unaFecha [] unAuto = cambiarFecha unaFecha unAuto
 ordenReparacion unaFecha (mecanico:otrosMecanicos) unAuto  = ordenReparacion unaFecha otrosMecanicos (mecanico unAuto)  
 
 -- PUNTO 6
---PARTE 1
+--PARTE 1 (Facu)
+loDejaEnCondiciones :: Auto -> Persona -> Bool
+loDejaEnCondiciones unAuto unaPersona = (not.esPeligroso.unaPersona) unAuto
 
--- mas adelante jajajaja
-
-
+tecnicosSuficientes :: [Persona] -> Auto -> [Persona]
+tecnicosSuficientes unosTecnicos unAuto = filter (loDejaEnCondiciones unAuto) unosTecnicos
 
 -- subo esta primera version, que seguro sale con foldl1 pero mas tarde lo miro bien jajaaj
---PARTE 2
+--PARTE 2 (Alex)
 costoReparacionA :: [Auto]-> Int
 costoReparacionA unosAutos = sum (map costoReparacion (autosEnRevision unosAutos))
 
 autosEnRevision :: [Auto]-> [Auto]
 autosEnRevision unosAutos = filter necesitaRevision unosAutos
+
+--PUNTO 7
