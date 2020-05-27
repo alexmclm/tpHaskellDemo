@@ -154,7 +154,7 @@ tecnicosSuficientes unosTecnicos unAuto = filter (loDejaEnCondiciones unAuto) un
 -- subo esta primera version, que seguro sale con foldl1 pero mas tarde lo miro bien jajaaj
 --PARTE 2 (Alex)
 costoReparacionA :: [Auto]-> Int
-costoReparacionA unosAutos = sum (map costoReparacion (autosEnRevision unosAutos))
+costoReparacionA unosAutos = (sum.map costoReparacion.autosEnRevision) unosAutos
 
 autosEnRevision :: [Auto]-> [Auto]
 autosEnRevision unosAutos = filter necesitaRevision unosAutos
