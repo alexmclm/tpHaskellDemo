@@ -171,3 +171,27 @@ primerTecnicoSuficiente :: [Persona] -> Auto -> Persona
 primerTecnicoSuficiente unosTecnicos unAuto = (head.tecnicosSuficientes unosTecnicos) unAuto
 
 --PARTE 2 (Alex)
+-- RESPUESTA: si podras tener una lista de auto, lo que NO podra, debido a su evaluacion que estamos usando en haskell
+-- es saber cuanto sera el costo total de los autos que necesitan reparacion debido a que la lista de autos es infinita
+
+-- demostrandolo con una lista de autos infinita:
+autosInfinitos :: [Auto]
+autosInfinitos = ford:audi:chevrolet:ferrari:autosInfinitos
+
+costoReparacionInfinita :: [Auto] -> Int
+costoReparacionInfinita unosAutosInfinitos = costoReparacionA unosAutosInfinitos
+
+-- y si tomamos en cuenta precisamente los 3 primeros autos que necesitan revision (de la lista infinita)?
+-- Respuesta : si, aca si se puede saber los primeros autos, por que por lazy evaluation, la funcion take
+-- me permite agarrar los primeros elementos que desee
+-- pero para eso debemos modificar algunas cosas
+
+-- ** necesito que la funcion autosEnReviionInfinita filtre a los autos infinitos pero a su vez
+-- ** necesito que me tome los primero 3 autos que necesita revision
+-- ** segundo modificar la funcion en costoReparacionInfinitaCortada para que componga con la funcion nueva
+
+autosEnRevisionInfinita :: [Auto]-> [Auto]
+autosEnRevisionInfinita unosAutos = (take 3.filter necesitaRevision) unosAutos
+
+costoReparacionInfinitaCortada :: [Auto]-> Int
+costoReparacionInfinitaCortada unoaAutosInfinitos = (sum.map costoReparacion.autosEnRevisionInfinita) unoaAutosInfinitos
