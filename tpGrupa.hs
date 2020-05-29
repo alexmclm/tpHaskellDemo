@@ -151,7 +151,6 @@ loDejaEnCondiciones unAuto unaPersona = (not.esPeligroso.unaPersona) unAuto
 tecnicosSuficientes :: [Persona] -> Auto -> [Persona]
 tecnicosSuficientes unosTecnicos unAuto = filter (loDejaEnCondiciones unAuto) unosTecnicos
 
--- subo esta primera version, que seguro sale con foldl1 pero mas tarde lo miro bien jajaaj
 --PARTE 2 (Alex)
 costoReparacionA :: [Auto]-> Int
 costoReparacionA unosAutos = (sum.map costoReparacion.autosEnRevision) unosAutos
@@ -160,3 +159,15 @@ autosEnRevision :: [Auto]-> [Auto]
 autosEnRevision unosAutos = filter necesitaRevision unosAutos
 
 --PUNTO 7
+--PARTE 1 (Facu)
+
+--RESPUESTA: Si, se puede obtener el primer tecnico que dejaria el auto en condiciones obteniendo el primer elemento de la lista generada
+-- por tecnicosSuficientes. Esto se puede hacer debido a que la funcion head tiene Lazy Evaluation; una vez que ya tiene el elemento que
+-- busca, no evalua el resto.
+tecnicosInfinitos :: [Persona]
+tecnicosInfinitos = alfa:bravo:charly:tango:lima:zulu:tecnicosInfinitos
+
+primerTecnicoSuficiente :: [Persona] -> Auto -> Persona
+primerTecnicoSuficiente unosTecnicos unAuto = (head.tecnicosSuficientes unosTecnicos) unAuto
+
+--PARTE 2 (Alex)
