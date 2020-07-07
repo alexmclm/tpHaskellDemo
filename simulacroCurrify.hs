@@ -85,9 +85,9 @@ hacerseDj unArtista = unArtista {cancion = map (efecto unArtista) (cancion unArt
 
 tieneGustoHomogeneo unArtista = all (perteneceMismoGenero) (cancion unArtista)
 
---perteneceMismoGenero (unaCancion:otraCanciogenero unaCancion) ==  (genero otraCancion)n:demasCanciones) = (
+perteneceMismoGenero :: [Cancion] -> Bool
+perteneceMismoGenero (unaCancion:otraCanciogenero unaCancion) ==  (genero otraCancion)n:demasCanciones) = (
 
--- perteneceMismoGenero canciones = ( x y /)
 
 formarBanda unNombre unosArtistas = crearArtista unNombre.(map )
 
